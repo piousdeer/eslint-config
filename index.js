@@ -99,7 +99,6 @@ module.exports = {
     'computed-property-spacing': 'warn',
     'eol-last': 'warn',
     'func-call-spacing': 'off',
-    'function-paren-newline': ['warn', 'consistent'],
     'indent': 'off',
     'jsx-quotes': ['warn', 'prefer-single'],
     'key-spacing': 'warn',
