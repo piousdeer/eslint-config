@@ -17,6 +17,10 @@
   },
   "author": "piousdeer",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piousdeer/eslint-config.git"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
