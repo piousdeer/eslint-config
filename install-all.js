@@ -56,7 +56,7 @@ exec(`${pmToUse.command} ${installString}`)
 console.log('Installed the package and its peer dependencies.')
 
 if (!fileExists(ESLINT_CONFIG_PATH)) {
-  writeFile(ESLINT_CONFIG_PATH, JSON.stringify(GENERATED_ESLINT_CONFIG), { flag: 'w' })
+  writeFile(ESLINT_CONFIG_PATH, JSON.stringify(GENERATED_ESLINT_CONFIG, null, 2), { flag: 'w' })
   console.log('Generated an ESLint config file.')
 } else {
   console.log('ESLint config file already exists.')
