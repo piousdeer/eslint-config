@@ -198,9 +198,7 @@ module.exports = {
     }],
     '@typescript-eslint/class-name-casing': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-member-accessibility': ['error', {
-      'accessibility': 'no-public'
-    }],
+    '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/func-call-spacing': 'warn',
     '@typescript-eslint/indent': ['warn', 2, {
       'SwitchCase': 1
