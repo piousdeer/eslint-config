@@ -4,7 +4,7 @@ My personal ESLint config. Style is somewhat similar to [eslint-config-standard]
 # Install
 Manual installation:
 ```bash
-npm i -D @piousdeer/eslint-config @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint typescript
+npm i -D @piousdeer/eslint-config @typescript-eslint/eslint-plugin@1 @typescript-eslint/parser@1 eslint@5 typescript@3
 ```
 
 Auto installation (installs all peerdeps & creates an `.eslintrc`):
