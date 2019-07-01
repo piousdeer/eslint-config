@@ -103,7 +103,9 @@ module.exports = {
     'jsx-quotes': ['warn', 'prefer-single'],
     'key-spacing': 'warn',
     'keyword-spacing': 'warn',
-    'lines-between-class-members': 'warn',
+    'lines-between-class-members': ['warn', 'always', {
+      'exceptAfterSingleLine': true
+    }],
     'new-cap': ['warn', {
       'newIsCap': true,
       'capIsNew': false
