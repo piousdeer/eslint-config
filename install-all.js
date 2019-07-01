@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
-const { existsSync: exists, writeFileSync: writeFile } = require('fs')
+const { existsSync: fileExists, writeFileSync: writeFile } = require('fs')
 const { execSync: exec } = require('child_process')
+const { resolve: resolvePath } = require('path')
 
-const path = require('path')
 const pkg = require('./package.json')
+
 const cwd = process.cwd()
+const inCwd = path => resolvePath(cwd, path)
 
-const inCwd = file => path.resolve(cwd, file)
-
-const packageManagers = [{
+const PACKAGE_MANAGERS = [{
   name: 'npm',
   lockfile: 'package-lock.json',
   command: 'npm install --save-dev'
@@ -24,46 +24,45 @@ const packageManagers = [{
   command: 'yarn add --dev'
 }]
 
-const ESLINT_CONFIG_FILE = '.eslintrc'
+const ESLINT_CONFIG_PATH = inCwd('.eslintrc')
+const PACKAGE_JSON_PATH = inCwd('package.json')
 
-const ESLINT_CONFIG_FILE_CONTENT = JSON.stringify({
+const GENERATED_ESLINT_CONFIG = {
   extends: getEslintConfigName(pkg.name)
-}, null, 2)
-
-if (!exists(inCwd('package.json'))) {
-  throw Error(`package.json doesn't exist, can't install.`)
 }
 
-const installString =
-  `${pkg.name}@${pkg.version} ` +
-  Object.entries(pkg.peerDependencies)
+console.log('Running ESLint config auto installer.')
+
+if (!fileExists(PACKAGE_JSON_PATH)) {
+  throw Error("package.json doesn't exist, can't install.")
+}
+
+const installString = [
+  `${pkg.name}@${pkg.version}`,
+  ...Object.entries(pkg.peerDependencies || [])
     .map(([name, version]) => `${name}@${version}`)
-    .join(' ')
+].join(' ')
 
-void function () {
-  let pm = packageManagers.find(
-    ({ lockfile }) => exists(lockfile)
-  )
+let pmToUse = PACKAGE_MANAGERS.find(pm => fileExists(pm.lockfile))
 
-  if (!pm) {
-    console.log(`No lockfiles exist, using npm.`)
-    pm = packageManagers.find(({ name }) => name === 'npm')
-  } else {
-    console.log(`Lockfile ${pm.lockfile} exists, using ${pm.name}.`)
-  }
+if (!pmToUse) {
+  console.log('No lockfiles exist, using npm.')
+  pmToUse = PACKAGE_MANAGERS.find(pm => pm.name === 'npm')
+} else {
+  console.log(`Lockfile ${pmToUse.lockfile} exists, using ${pmToUse.name}.`)
+}
 
-  exec(`${pm.command} ${installString}`)
-  console.log(`Installed the package and its peer dependencies.`)
+exec(`${pmToUse.command} ${installString}`)
+console.log('Installed the package and its peer dependencies.')
 
-  if (!exists(inCwd(ESLINT_CONFIG_FILE))) {
-    writeFile(inCwd(ESLINT_CONFIG_FILE), ESLINT_CONFIG_FILE_CONTENT, { flag: 'w' })
-    console.log(`Generated an ESLint config file.`)
-  } else {
-    console.log(`ESLint config file already exists.`)
-  }
-}()
+if (!fileExists(ESLINT_CONFIG_PATH)) {
+  writeFile(ESLINT_CONFIG_PATH, JSON.stringify(GENERATED_ESLINT_CONFIG), { flag: 'w' })
+  console.log('Generated an ESLint config file.')
+} else {
+  console.log('ESLint config file already exists.')
+}
 
-function getEslintConfigName (packageName) {
-  const match = packageName.match(/^(@[a-z0-9-~][a-z0-9-._~]*)\/eslint-config|eslint-config-([a-z0-9-._~]*)$/)
-  return match[1] || match[2] || packageName
+function getEslintConfigName (pkgName) {
+  const match = pkgName.match(/^(@[a-z0-9-~][a-z0-9-._~]*)\/eslint-config|eslint-config-([a-z0-9-._~]*)$/)
+  return match[1] || match[2] || pkgName
 }
