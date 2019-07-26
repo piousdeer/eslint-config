@@ -23,12 +23,13 @@ module.exports = {
 
   rules: {
     /*
-      Rules 'no-unused-vars', 'no-use-before-define', 'camelcase', 'func-call-spacing', 'indent'
-      and 'no-array-constructor' are set to 'off' because they're handled by @typescript-eslint/eslint-plugin.
+      Rules 'no-unused-vars', 'no-use-before-define', 'camelcase', 'func-call-spacing', 'indent', 'no-array-constructor',
+      'no-empty-function', 'no-extra-parens', 'no-useless-constructor' and 'semi' are set to 'off'
+      because they're handled by @typescript-eslint/eslint-plugin.
     */
 
     // Possible Errors
-    'no-extra-parens': 'error',
+    'no-extra-parens': 'off',
     'no-misleading-character-class': 'error',
     'no-prototype-builtins': 'error',
     'require-atomic-updates': 'error',
@@ -43,7 +44,7 @@ module.exports = {
     }],
     'no-caller': 'error',
     'no-else-return': 'warn',
-    'no-empty-function': 'warn',
+    'no-empty-function': 'off',
     'no-eval': 'error',
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
@@ -143,7 +144,7 @@ module.exports = {
       'avoidEscape': true,
       'allowTemplateLiterals': true
     }],
-    'semi': ['warn', 'never'],
+    'semi': 'off',
     'semi-spacing': 'warn',
     'space-before-blocks': 'warn',
     'space-before-function-paren': 'warn',
@@ -171,7 +172,7 @@ module.exports = {
     'generator-star-spacing': ['warn', 'after'],
     'no-duplicate-imports': 'warn',
     'no-useless-computed-key': 'warn',
-    'no-useless-constructor': 'warn',
+    'no-useless-constructor': 'off',
     'no-useless-rename': 'warn',
     'no-var': 'error',
     'object-shorthand': ['warn', 'always', {
@@ -214,12 +215,16 @@ module.exports = {
         'requireLast': false
       }
     }],
+    '@typescript-eslint/no-empty-function': 'warn',
+    '@typescript-eslint/no-extra-parens': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-use-before-define': ['error', {
       'functions': false,
       'classes': true
     }],
-    '@typescript-eslint/no-var-requires': 'off' // Conflicts with JavaScript+Node.
+    '@typescript-eslint/no-useless-constructor': 'warn',
+    '@typescript-eslint/no-var-requires': 'off', // Conflicts with JavaScript+Node.
+    '@typescript-eslint/semi': ['warn', 'never']
   }
 }
