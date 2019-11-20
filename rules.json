@@ -374,7 +374,7 @@
   "operator-assignment": "off",
   "operator-linebreak": [
     "warn",
-    "after"
+    "before"
   ],
   "padded-blocks": [
     "warn",
